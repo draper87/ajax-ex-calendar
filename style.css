@@ -3,3 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+.menu {
+  padding: 10px 0;
+}
+
+.naviga {
+  border: 1px solid blue;
+  padding: 5px 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.giorni .evidenziato {
+  color: magenta;
+}

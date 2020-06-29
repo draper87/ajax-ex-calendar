@@ -12,17 +12,17 @@
     <body>
 
       <div class="container">
-        <span id="precedente">Mese precedente</span>
-        <span id="successivo">Mese successivo</span>
+        <div class="menu">
+          <span class="naviga" id="precedente">Mese precedente</span>
+          <span class="naviga" id="successivo">Mese successivo</span>
+        </div>
         <h4 id="mese"></h4>
+        <ul class="giorni">
+        </ul>
       </div>
 
       <script id="entry-template" type="text/x-handlebars-template">
-        <div class="calendario">
-          <ul id="giorni">
-            <li>{{ giorno }} , {{ mese}} </li>
-          </ul>
-        </div>
+            <li><span class="giorno">{{ giorno }}</span> , {{ mese}} <span class="festivo"></span></li>
       </script>
 
       <script src="script.js" charset="utf-8"></script>
