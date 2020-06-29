@@ -61,7 +61,6 @@ $(document).ready(function() {
       },
       success: function(data) {
         var festivita = data.response;
-        var dataDaControllare = festivita[0].date;
 
         for (var i = 0; i < festivita.length; i++) {
           var singolaFestivita = festivita[i].date; // metto in una variabile il singolo oggetto della array
