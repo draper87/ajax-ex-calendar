@@ -2,12 +2,8 @@ $(document).ready(function() {
 
   // dichiaro le variabili con moment.js
   var dataDiPartenza = moment('2018-01-01');
-  var giorno = dataDiPartenza.format('D');
-  var mese = dataDiPartenza.format('MMMM');
   var meseNumero = dataDiPartenza.format('M');
-  var anno = dataDiPartenza.format('YYYY');
-  var numeroGiorniMese = dataDiPartenza.daysInMonth(); // utilizzo questa variabile per sapere il numero di giorni nel mese
-  creaMese(); // richiamo la funzione che mi aggiorna il mese di competenza e fa la chiamata ajax per trovare le festivita
+  creaMese(dataDiPartenza, meseNumero); // richiamo la funzione che mi aggiorna il mese di competenza e fa la chiamata ajax per trovare le festivita
 
   // quando clicco su Mese precedente deve tornare indietro di un mese
   $('#precedente').click(function() {
@@ -15,12 +11,8 @@ $(document).ready(function() {
       return;
     }
     dataDiPartenza.subtract(1 , 'month');
-    numeroGiorniMese = dataDiPartenza.daysInMonth();
-    giorno = dataDiPartenza.format('D');
-    mese = dataDiPartenza.format('MMMM');
     meseNumero = dataDiPartenza.format('M');
-    anno = dataDiPartenza.format('YYYY');
-    creaMese();
+    creaMese(dataDiPartenza, meseNumero);
   })
 
   // quando clicco su Mese successivo deve andare avanti di un mese
@@ -29,16 +21,18 @@ $(document).ready(function() {
       return;
     }
     dataDiPartenza.add(1 , 'month');
-    numeroGiorniMese = dataDiPartenza.daysInMonth();
-    giorno = dataDiPartenza.format('D');
-    mese = dataDiPartenza.format('MMMM');
     meseNumero = dataDiPartenza.format('M');
-    anno = dataDiPartenza.format('YYYY');
-    creaMese();
+    creaMese(dataDiPartenza, meseNumero);
   })
 
 
-  function creaMese() {
+  function creaMese(dataDiPartenza, meseNumero) {
+
+    var giorno = dataDiPartenza.format('D');
+    var mese = dataDiPartenza.format('MMMM');
+    var anno = dataDiPartenza.format('YYYY');
+    var numeroGiorniMese = dataDiPartenza.daysInMonth(); // utilizzo questa variabile per sapere il numero di giorni nel mese
+
     $('.container .giorni').html(''); // resetto la lista
     $('.container').children('h4').text(mese + ' ' + anno); // vado a scrivere il mese e anno di competenza
     for (var i = 0; i < numeroGiorniMese; i++) { // utilizzo il ciclo for dove il limite e il numero dei gg nel mese specifico
