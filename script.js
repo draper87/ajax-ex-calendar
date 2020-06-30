@@ -13,7 +13,8 @@ $(document).ready(function() {
     }
     dataDiPartenza.subtract(1 , 'month');
     meseNumero = dataDiPartenza.format('M');
-    creaMese(dataDiPartenza, meseNumero);
+    creaMese(dataDiPartenza);
+    creaFestivita(meseNumero);
   })
 
   // quando clicco su Mese successivo deve andare avanti di un mese
@@ -23,11 +24,12 @@ $(document).ready(function() {
     }
     dataDiPartenza.add(1 , 'month');
     meseNumero = dataDiPartenza.format('M');
-    creaMese(dataDiPartenza, meseNumero);
+    creaMese(dataDiPartenza);
+    creaFestivita(meseNumero);
   })
 
 
-  function creaMese(dataDiPartenza, meseNumero) {
+  function creaMese(dataDiPartenza) {
 
     var mese = dataDiPartenza.format('MMMM');
     var anno = dataDiPartenza.format('YYYY');
@@ -37,7 +39,7 @@ $(document).ready(function() {
     var template = Handlebars.compile(source); // passiamo a Handlebars il percorso del template html
 
     $('.container .giorni').html(''); // resetto la lista
-    $('.container').children('h4').text(mese + ' ' + anno); // vado a scrivere il mese e anno di competenza
+    $('.container').children('h2').text(mese + ' ' + anno); // vado a scrivere il mese e anno di competenza
     for (var i = 1; i <= numeroGiorniMese; i++) { // utilizzo il ciclo for dove il limite e il numero dei gg nel mese specifico
 
       var giornoCorrente = moment({
@@ -56,39 +58,35 @@ $(document).ready(function() {
     }
   }
 
-    // metterla dentro un altra funzione
-    function creaFestivita(meseNumero) {
-      $.ajax({
-        url: 'https://flynn.boolean.careers/exercises/api/holidays',
-        method: 'GET',
-        data: {
-          "year": 2018,
-          "month": meseNumero - 1
-        },
-        success: function(data) {
-          var festivita = data.response;
+  // funzione che fa una chiamata ajax e associa eventuali festivita al giorno corrispondente
+  function creaFestivita(meseNumero) {
+    $.ajax({
+      url: 'https://flynn.boolean.careers/exercises/api/holidays',
+      method: 'GET',
+      data: {
+        "year": 2018,
+        "month": meseNumero - 1
+      },
+      success: function(data) {
+        var festivita = data.response;
 
-          for (var i = 0; i < festivita.length; i++) {
-            var singolaFestivita = festivita[i].date; // metto in una variabile il singolo oggetto della array
-            var nomeFestivita = festivita[i].name; // prendo il nome della festivita
-            var singolaFestivitaGiorno = parseInt(singolaFestivita.substr(singolaFestivita.length - 2)); // mi estraggo il giorno della festivita per poterlo confrontare con quello della mia lista
+        for (var i = 0; i < festivita.length; i++) { // faccio un ciclo for per ciclare tutte le possibili festivita
+          var singolaFestivita = festivita[i].date; // metto in una variabile il singolo oggetto della array
+          var nomeFestivita = festivita[i].name; // prendo il nome della festivita
 
-            $('.giorni li').each(function() { // ciclo per tutti i giorni presenti in lista
-              var giornoAttuale = parseInt($(this).children('.giorno').text());
-              if (giornoAttuale == singolaFestivitaGiorno) { // se combaciano allora faccio il match
-                $(this).find('.festivo').append(' - ' + nomeFestivita);
-                $(this).addClass('evidenziato');
-              }
-            })
-          }
-        },
-        error: function() {
-          alert('errore server');
+          $('.giorni li').each(function() { // ciclo per tutti i giorni presenti in lista
+            var giornoAttuale = $(this).attr('dataAttr'); // prendo il valore dell attributo dataAttr dalla lista
+            if (giornoAttuale == singolaFestivita) { // se combaciano allora faccio il match
+              $(this).find('.festivo').append(' - ' + nomeFestivita);
+              $(this).addClass('evidenziato');
+            }
+          })
         }
-      })
-    }
-
-
-
+      },
+      error: function() {
+        alert('errore server');
+      }
+    })
+  }
 
 })

@@ -2,18 +2,63 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
+
+.container {
+  width: 1200px;
+  height: 700px;
+  margin: 20px auto;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
 .menu {
+  margin-bottom: 20px;
   padding: 10px 0;
+  text-align: center;
+}
+
+#mese {
+  text-align: center;
 }
 
 .naviga {
-  border: 1px solid blue;
-  padding: 5px 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: orange;
+  color: white;
+  padding: 10px 15px;
   margin: 10px;
   cursor: pointer;
+}
+.naviga:hover {
+  border: 1px solid orange;
+  background-color: white;
+  color: orange;
 }
 
 .giorni .evidenziato {
   color: magenta;
+}
+
+.giorni {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.giorni li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 5);
+  height: 100px;
+  list-style: none;
+  border: 1px solid orange;
+}
+
+.festivo {
+  /* word-break: break-all; */
 }
